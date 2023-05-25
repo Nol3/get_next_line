@@ -6,82 +6,64 @@
 /*   By: alcarden <alcarden@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:11:19 by alcarden          #+#    #+#             */
-/*   Updated: 2023/05/24 19:45:24 by alcarden         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:25:10 by alcarden         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strdup(const char *s)
+int	ft_strlen(char *str)
 {
-	int		i;
-	int		size;
-	char	*ptr;
+	int	cnt;
 
-	i = 0;
-	size = ft_strlen(s);
-	ptr = (char *)malloc(size * (sizeof(char)) + 1);
-	if (!ptr)
+	cnt = 0;
+	if (!str)
 		return (0);
-	while (i < size)
-	{
-		ptr[i] = s[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	while (str[cnt] != '\0')
+		cnt++;
+	return (cnt);
 }
 
-int	ft_strlen(const char *str)
+char	*ft_strjoin(char *buff, char *stack)
 {
-	int	i;
+	char	*res;
+	int		cnt;
+	int		cnt2;
 
-	i = 0;
-	while (str[i] != '\0')
+	if (!stack)
 	{
-		i++;
+		stack = malloc(1);
+		stack[0] = '\0';
 	}
-	return (i);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char			*new;
-	unsigned int	size;
-	unsigned int	i;
-	unsigned int	x;
-
-	size = ft_strlen(s1) + ft_strlen(s2);
-	new = (char *)malloc(size * sizeof(char) + 1);
-	if (!new)
+	if (!stack || !buff)
 		return (0);
-	i = 0;
-	x = 0;
-	while (i < size)
-	{
-		if (i < size - ft_strlen(s2))
-			new[i] = s1[i];
-		else
-		{
-			new[i] = s2[x];
-			x++;
-		}
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
+	res = malloc(sizeof(char) * (ft_strlen(buff) + ft_strlen(stack)) + 1);
+	if (!res)
+		return (0);
+	cnt = -1;
+	cnt2 = 0;
+	if (stack)
+		while (stack[++cnt] != '\0')
+			res[cnt] = stack[cnt];
+	while (buff[cnt2] != '\0')
+		res[cnt++] = buff[cnt2++];
+	res[cnt] = '\0';
+	free(stack);
+	return (res);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *str, char c)
 {
-	int		i;
+	int	cnt;
 
-	i = 0;
-	while (s[i] != '\0' && s[i] != (char)c)
+	cnt = 0;
+	if (!str)
+		return (0);
+	while (str[cnt] != '\0')
 	{
-		i++;
+		if (str[cnt] == c)
+			return (&str[cnt]);
+		cnt++;
 	}
-	if (s[i] == (char)c)
-		return ((char *)&s[i]);
 	return (0);
 }
